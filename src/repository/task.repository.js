@@ -60,4 +60,21 @@ async function getByIdTaskDB(id) {
   
 }
 
-module.exports = {createTaskDB,getAllTaskDB, updateTaskDB,deleteTaskDB,getByIdTaskDB}
+async function updateTaskOnResDB(id,body) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const sql1 = 'SELECT * FROM tasks WHERE id = $1';
+        const oldObj = (await client.query(sql1,[id])).rows;
+        const newObj = {...oldObj[0], ...body};
+        const sql2 = 'UPDATE tasks SET task = $1,user_id = $2 WHERE id = $3 returning *';
+        const result = (await client.query(sql2,[newObj.task,newObj.user_id,id])).rows
+        await client.query('commit')
+        return result
+    } catch (error) {
+        await client.query('rollback');
+        return [];
+    }
+}
+
+module.exports = {createTaskDB,getAllTaskDB, updateTaskDB,deleteTaskDB,getByIdTaskDB,updateTaskOnResDB}

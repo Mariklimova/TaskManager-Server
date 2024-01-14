@@ -1,5 +1,5 @@
 const express = require('express')
-const { createUser, getAllUser, getUserById, updateUser,deleteUser } = require('../service/user.service');
+const { createUser, getAllUser, getUserById, updateUser,deleteUser,updateUserOnRes } = require('../service/user.service');
 const { buildResponse } = require('../helper/buildResponse');
 const{IsValidUser, IsValidUserId} = require('../helper/validation')
 
@@ -55,6 +55,16 @@ route.delete('/:id',IsValidUserId, async (req, res) => {
     }
 })
 
+route.patch('/:id',IsValidUserId, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const body = req.body;
+        const data = await updateUserOnRes(id,body);
+        buildResponse(200, data, res)
+    } catch (error) {
+        buildResponse(404, error.message, res)
+    }
+})
 
 
 module.exports = route;

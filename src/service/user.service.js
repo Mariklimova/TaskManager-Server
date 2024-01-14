@@ -1,4 +1,4 @@
-const { createUserDB, getAllUserDB, getUserByIdDB, updateUserDB, getUserEmailDB,deleteUserDB } = require('../repository/user.repository')
+const { createUserDB, getAllUserDB, getUserByIdDB, updateUserDB, getUserEmailDB,deleteUserDB,updateUserOnResDB } = require('../repository/user.repository')
 
 async function createUser(name, surname, email, pwd) {
     const foundUser = await getUserEmailDB(email);
@@ -31,8 +31,14 @@ async function deleteUser(id) {
     return data
 }
 
+async function updateUserOnRes(id,body) {
+    const data = await updateUserOnResDB(id,body);
+    if (!data.length) throw new Error('id not found');
+    return data
+}
 
 
 
 
-module.exports = { createUser, getAllUser, getAllUser, getUserById, updateUser, deleteUser }
+
+module.exports = { createUser, getAllUser, getAllUser, getUserById, updateUser, deleteUser,updateUserOnRes }

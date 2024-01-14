@@ -1,6 +1,7 @@
 const express = require('express');
-const {createTask, getAllTask, updateTask,deleteTask,getByIdTask} = require('../service/task.service');
+const {createTask, getAllTask, updateTask,deleteTask,getByIdTask,updateTaskOnRes} = require('../service/task.service');
 const {buildResponse} = require('../helper/buildResponse');
+const { updateTaskDB } = require('../repository/task.repository');
 
 const route = express.Router();
 
@@ -49,6 +50,17 @@ route.get('/:id', async (req, res) => {
     try {
         const {id} = req.params;
         const data = await getByIdTask(id);
+        buildResponse(200, data, res)
+    } catch (error) {
+        buildResponse(404, error.message, res)
+    }
+})
+
+route.patch('/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const body = req.params;
+        const data = await updateTaskOnRes(id,body);
         buildResponse(200, data, res)
     } catch (error) {
         buildResponse(404, error.message, res)
