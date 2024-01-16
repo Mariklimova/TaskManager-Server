@@ -1,44 +1,48 @@
-const { createUserDB, getAllUserDB, getUserByIdDB, updateUserDB, getUserEmailDB,deleteUserDB,updateUserOnResDB } = require('../repository/user.repository')
+const {
+  createUserDB,
+  getAllUserDB,
+  getUserByIdDB,
+  updateUserDB,
+  getUserEmailDB,
+  deleteUserDB,
+  updateUserOnResDB,
+} = require('../repository/user.repository');
 
 async function createUser(name, surname, email, pwd) {
-    const foundUser = await getUserEmailDB(email);
-    if (foundUser.length) throw new Error('user already exists');
-    const data = await createUserDB(name, surname, email, pwd);
-    if (!data.length) throw new Error('data do not create');
-    return data
+  const foundUser = await getUserEmailDB(email);
+  if (foundUser.length) throw new Error('user already exists');
+  const data = await createUserDB(name, surname, email, pwd);
+  if (!data.length) throw new Error('data do not create');
+  return data;
 }
 async function getAllUser() {
-    const data = await getAllUserDB();
-    if (!data.length) throw new Error('data is empty');
-    return data
+  const data = await getAllUserDB();
+  if (!data.length) throw new Error('data is empty');
+  return data;
 }
 
 async function getUserById(id) {
-    const data = await getUserByIdDB(id);
-    if (!data.length) throw new Error('id not found');
-    return data
+  const data = await getUserByIdDB(id);
+  if (!data.length) throw new Error('id not found');
+  return data;
 }
 
 async function updateUser(id, name, surname, email, pwd) {
-    const data = await updateUserDB(id, name, surname, email, pwd);
-    if (!data.length) throw new Error('data do not create');
-    return data
+  const data = await updateUserDB(id, name, surname, email, pwd);
+  if (!data.length) throw new Error('data do not create');
+  return data;
 }
 
 async function deleteUser(id) {
-    const data = await deleteUserDB(id);
-    if (!data.length) throw new Error('id not found');
-    return data
+  const data = await deleteUserDB(id);
+  if (!data.length) throw new Error('id not found');
+  return data;
 }
 
-async function updateUserOnRes(id,body) {
-    const data = await updateUserOnResDB(id,body);
-    if (!data.length) throw new Error('id not found');
-    return data
+async function updateUserOnRes(id, body) {
+  const data = await updateUserOnResDB(id, body);
+  if (!data.length) throw new Error('id not found');
+  return data;
 }
 
-
-
-
-
-module.exports = { createUser, getAllUser, getAllUser, getUserById, updateUser, deleteUser,updateUserOnRes }
+module.exports = { createUser, getAllUser, getUserById, updateUser, deleteUser, updateUserOnRes };

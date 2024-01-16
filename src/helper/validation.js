@@ -6,10 +6,7 @@ function IsValidUserId(req, _res, next) {
   next();
 }
 
-
-
 function IsValidUser(req, _res, next) {
-
   const { name, surname, email, pwd } = req.body;
 
   if (typeof name != 'string') throw new Error('type name not valid');
@@ -18,7 +15,7 @@ function IsValidUser(req, _res, next) {
   if (typeof pwd != 'string') throw new Error('type password not valid');
   if (!isNaN(name)) throw new Error('name not string');
   if (!isNaN(surname)) throw new Error('surname not string');
-  if (!/^\w+\@\w+\.[a-z]{2,5}/gm.test(email)) throw new Error('email not valid');
+  if (!/^\w+@\w+\.[a-z]{2,5}/gm.test(email)) throw new Error('email not valid');
   if (!/^\w{8,}$/gm.test(pwd)) throw new Error('password not valid');
 
   next();

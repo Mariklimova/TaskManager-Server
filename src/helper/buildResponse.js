@@ -1,6 +1,6 @@
-function buildResponse(status,message,res) {
-    res.status(status);
-    res.send(message);
+function buildResponse(status, message, res) {
+  res.status(status);
+  res.send(message);
 }
 
-module.exports = {buildResponse}
+module.exports = { buildResponse };
