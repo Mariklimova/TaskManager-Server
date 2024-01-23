@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routeUser = require('./controller/user.controller');
 const routeTask = require('./controller/task.controller');
-const routeApi = require('./controller/api.controller')
+const routeApi = require('./controller/api.controller');
 
 const app = express();
 
