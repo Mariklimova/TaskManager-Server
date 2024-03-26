@@ -1,4 +1,4 @@
-const { createTaskDB, getAllTaskDB, updateTaskDB, deleteTaskDB, getByIdTaskDB, updateTaskOnResDB } = require('../repository/task.repository');
+import { createTaskDB, getAllTaskDB, updateTaskDB, deleteTaskDB, getByIdTaskDB, updateTaskOnResDB } from '../repository/task.repository';
 
 async function createTask(task, user_id) {
   const data = await createTaskDB(task, user_id);
@@ -6,8 +6,8 @@ async function createTask(task, user_id) {
   return data;
 }
 
-async function getAllTask(task, user_id) {
-  const data = await getAllTaskDB(task, user_id);
+async function getAllTask() {
+  const data = await getAllTaskDB();
   if (!data.length) throw new Error('data do not create');
   return data;
 }
@@ -35,4 +35,4 @@ async function updateTaskOnRes(id, body) {
   if (!data.length) throw new Error('data do not create');
   return data;
 }
-module.exports = { createTask, getAllTask, updateTask, deleteTask, getByIdTask, updateTaskOnRes };
+export { createTask, getAllTask, updateTask, deleteTask, getByIdTask, updateTaskOnRes };

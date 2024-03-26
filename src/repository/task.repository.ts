@@ -1,4 +1,4 @@
-const pool = require('../db');
+import pool from '../db';
 
 async function createTaskDB(task, user_id) {
   const client = await pool.connect();
@@ -76,4 +76,4 @@ async function updateTaskOnResDB(id, body) {
   }
 }
 
-module.exports = { createTaskDB, getAllTaskDB, updateTaskDB, deleteTaskDB, getByIdTaskDB, updateTaskOnResDB };
+export { createTaskDB, getAllTaskDB, updateTaskDB, deleteTaskDB, getByIdTaskDB, updateTaskOnResDB };

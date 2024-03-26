@@ -1,7 +1,7 @@
-const express = require('express');
-const { buildResponse } = require('../helper/buildResponse');
-const { createUserApi, authUserEmail } = require('../service/api.service');
-const { createToken } = require('../helper/jwt');
+import express from 'express';
+import { buildResponse } from '../helper/buildResponse';
+import { createUserApi, authUserEmail } from '../service/api.service';
+import { createToken } from '../helper/jwt';
 
 const routeApi = express.Router();
 
@@ -10,7 +10,7 @@ routeApi.post('/reg', async (req, res) => {
     const { name, surname, email, pwd } = req.body;
     const data = await createUserApi(name, surname, email, pwd);
     buildResponse(200, data, res);
-  } catch (error) {
+  } catch (error: any) {
     buildResponse(404, error.message, res);
   }
 });
@@ -21,8 +21,8 @@ routeApi.post('/auth', async (req, res) => {
     const data = await authUserEmail(email, pwd);
     const token = createToken(data);
     buildResponse(200, token, res);
-  } catch (error) {
+  } catch (error: any) {
     buildResponse(404, error.message, res);
   }
 });
-module.exports = routeApi;
+export default routeApi;

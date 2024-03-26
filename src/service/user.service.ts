@@ -1,4 +1,4 @@
-const {
+import {
   createUserDB,
   getAllUserDB,
   getUserByIdDB,
@@ -6,7 +6,7 @@ const {
   getUserEmailDB,
   deleteUserDB,
   updateUserOnResDB,
-} = require('../repository/user.repository');
+} from '../repository/user.repository';
 
 async function createUser(name, surname, email, pwd) {
   const foundUser = await getUserEmailDB(email);
@@ -45,4 +45,4 @@ async function updateUserOnRes(id, body) {
   return data;
 }
 
-module.exports = { createUser, getAllUser, getUserById, updateUser, deleteUser, updateUserOnRes };
+export { createUser, getAllUser, getUserById, updateUser, deleteUser, updateUserOnRes };

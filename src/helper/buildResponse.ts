@@ -3,4 +3,4 @@ function buildResponse(status, message, res) {
   res.send(message);
 }
 
-module.exports = { buildResponse };
+export { buildResponse };
