@@ -1,7 +1,6 @@
 import express from 'express';
 import { createTask, getAllTask, updateTask, deleteTask, getByIdTask, updateTaskOnRes } from '../service/task.service';
 import { buildResponse } from '../helper/buildResponse';
-import { IsValidUser, IsValidUserId } from '../helper/validation';
 
 const route = express.Router();
 
@@ -15,7 +14,7 @@ route.post('/', async (req, res) => {
   }
 });
 
-route.get('/', async (req, res) => {
+route.get('/', async (_req, res) => {
   try {
     const data = await getAllTask();
     buildResponse(200, data, res);
