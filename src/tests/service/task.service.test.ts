@@ -125,7 +125,7 @@ describe('updateTaskOnRes', () => {
     });
 
     test('uncorrect', async () => {
-        const fake = jest.spyOn(repository, 'updateTaskDB');
+        const fake = jest.spyOn(repository, 'updateTaskOnResDB');
         try {
             fake.mockResolvedValue([])
 
