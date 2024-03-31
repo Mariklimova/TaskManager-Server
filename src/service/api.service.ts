@@ -16,10 +16,9 @@ async function createUserApi(name, surname, email, pwd) {
 
 async function authUserEmail(email, pwd) {
   const findEmail = await getUserByEmailDB(email);
-
-  if (!findEmail.length) throw new Error('wrong password or email');
+  if (!findEmail.length) throw new Error('wrong email');
   const comparePwd = await bcript.compare(pwd, findEmail[0].pwd);
-  if (!comparePwd) throw new Error('wrong password or email');
+  if (!comparePwd) throw new Error('wrong password');
   return findEmail;
 }
 
