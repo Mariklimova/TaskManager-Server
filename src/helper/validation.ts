@@ -1,4 +1,6 @@
-function IsValidUserId(req, _res, next) {
+import { Response, Request, NextFunction } from 'express';
+
+function IsValidUserId(req: Request, _res: Response, next: NextFunction) {
   const { id } = req.params;
   if (typeof id != 'number' && typeof id != 'string') throw new Error('type id not valid');
   if (isNaN(+id)) throw new Error('id not number');
@@ -6,7 +8,7 @@ function IsValidUserId(req, _res, next) {
   next();
 }
 
-function IsValidUser(req, _res, next) {
+function IsValidUser(req: Request, _res: Response, next: NextFunction) {
   const { name, surname, email, pwd } = req.body;
 
   if (typeof name != 'string') throw new Error('type name not valid');

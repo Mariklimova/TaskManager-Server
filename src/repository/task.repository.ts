@@ -1,75 +1,73 @@
 import pool from '../db';
+import { iTask } from '../interfaces/interface';
 
-async function createTaskDB(task, user_id) {
+async function createTaskDB(task: string, user_id: string): Promise<iTask[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = 'insert into tasks (task,user_id) values ($1,$2) returning *';
+    const sql: string = 'insert into tasks (task,user_id) values ($1,$2) returning *';
     const { rows } = await client.query(sql, [task, user_id]);
     await client.query('commit');
     return rows;
-  } catch (error) {
+  } catch (error: any) {
     await client.query('rollback');
     return [];
   }
 }
 
-async function getAllTaskDB() {
+async function getAllTaskDB(): Promise<iTask[]> {
   const client = await pool.connect();
-  const sql = 'select * from tasks';
+  const sql: string = 'select * from tasks';
   const { rows } = await client.query(sql);
   return rows;
 }
 
-async function updateTaskDB(id, task, user_id) {
+async function updateTaskDB(id: string, task: string, user_id: string): Promise<iTask[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = 'UPDATE tasks SET task = $1,user_id = $2 WHERE id = $3 returning *';
+    const sql: string = 'UPDATE tasks SET task = $1,user_id = $2 WHERE id = $3 returning *';
     const { rows } = await client.query(sql, [task, user_id, id]);
     await client.query('commit');
     return rows;
-  } catch (error) {
+  } catch (error: any) {
     await client.query('rollback');
     return [];
   }
 }
 
-async function deleteTaskDB(id) {
+async function deleteTaskDB(id: string): Promise<iTask[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = 'DELETE FROM tasks WHERE id = $1 returning *';
+    const sql: string = 'DELETE FROM tasks WHERE id = $1 returning *';
     const { rows } = await client.query(sql, [id]);
     await client.query('commit');
     return rows;
-  } catch (error) {
+  } catch (error: any) {
     await client.query('rollback');
     return [];
   }
 }
 
-async function getByIdTaskDB(id) {
+async function getByIdTaskDB(id: string): Promise<iTask[]> {
   const client = await pool.connect();
-  const sql = 'select * from tasks where id = $1';
+  const sql: string = 'select * from tasks where id = $1';
   const { rows } = await client.query(sql, [id]);
   return rows;
 }
 
-async function updateTaskOnResDB(id, body) {
+async function updateTaskOnResDB(id: string, body: iTask): Promise<iTask[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql1 = 'SELECT * FROM tasks WHERE id = $1';
-    const oldObj = (await client.query(sql1, [id])).rows;
-    console.log(oldObj);
-    console.log(body);
-    const newObj = { ...oldObj[0], ...body };
-    const sql2 = 'UPDATE tasks SET task = $1,user_id = $2 WHERE id = $3 returning *';
-    const result = (await client.query(sql2, [newObj.task, newObj.user_id, id])).rows;
-    console.log(result);
+    const sql1: string = 'SELECT * FROM tasks WHERE id = $1';
+    const oldObj: iTask[] = (await client.query(sql1, [id])).rows;
+    const newObj: iTask = { ...oldObj[0], ...body };
+    const sql2: string = 'UPDATE tasks SET task = $1,user_id = $2 WHERE id = $3 returning *';
+    const { rows } = (await client.query(sql2, [newObj.task, newObj.user_id, id]));
     await client.query('commit');
-    return result;
+    return rows;
   } catch (error) {
     await client.query('rollback');
     return [];

@@ -1,10 +1,11 @@
 import pool from '../db';
+import {iUser } from '../interfaces/interface';
 
-async function createUserDB(name, surname, email, pwd) {
+async function createUserDB(name:string, surname:string, email:string, pwd:string):Promise<iUser[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = 'insert into users (name,surname,email,pwd) values ($1,$2,$3,$4) returning *';
+    const sql:string = 'insert into users (name,surname,email,pwd) values ($1,$2,$3,$4) returning *';
     const { rows } = await client.query(sql, [name, surname, email, pwd]);
     await client.query('commit');
     return rows;
