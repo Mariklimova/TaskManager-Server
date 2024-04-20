@@ -1,7 +1,8 @@
-import { createTaskDB, getAllTaskDB, getByIdTaskDB, updateTaskDB,updateTaskOnResDB, deleteTaskDB } from '../../repository/task.repository';
+import { createTaskDB, getAllTaskDB, getByIdTaskDB, updateTaskDB, updateTaskOnResDB, deleteTaskDB } from '../../repository/task.repository';
 
 const client = {
-    query: jest.fn()
+    query: jest.fn(),
+    release: jest.fn()
 }
 
 jest.mock('pg', function () {
@@ -42,7 +43,7 @@ describe('getByIdTaskDB', () => {
     test('correct', async () => {
         client.query.mockResolvedValue({ rows: [{ id: 1, task: 'task_1', user_id: '1' }] });
 
-        const result = await getByIdTaskDB(1);
+        const result = await getByIdTaskDB('1');
 
         expect(result).toEqual([{ id: 1, task: 'task_1', user_id: '1' }]);
         expect(result).toHaveLength(1);
@@ -54,7 +55,7 @@ describe('updateTaskDB', () => {
     test('correct', async () => {
         client.query.mockResolvedValue({ rows: [{ id: 2, task: 'task_22', user_id: '4' }] });
 
-        const result = await updateTaskDB(2,'task_22', '4');
+        const result = await updateTaskDB('2', 'task_22', '4');
 
         expect(result).toEqual([{ id: 2, task: 'task_22', user_id: '4' }]);
         expect(result).toHaveLength(1);
@@ -66,7 +67,7 @@ describe('updateTaskOnResDB', () => {
     test('correct', async () => {
         client.query.mockResolvedValue({ rows: [{ id: 2, task: 'task_4', user_id: '4' }] });
 
-        const result = await updateTaskOnResDB(2,{task: 'task_4'});
+        const result = await updateTaskOnResDB('2', { task: 'task_4' });
 
         expect(result).toEqual([{ id: 2, task: 'task_4', user_id: '4' }]);
         expect(result).toHaveLength(1);
@@ -78,7 +79,7 @@ describe('deleteTaskDB', () => {
     test('correct', async () => {
         client.query.mockResolvedValue({ rows: [{ id: 2, task: 'task_4', user_id: '4' }] });
 
-        const result = await deleteTaskDB(2);
+        const result = await deleteTaskDB('2');
 
         expect(result).toEqual([{ id: 2, task: 'task_4', user_id: '4' }]);
         expect(result).toHaveLength(1);

@@ -1,7 +1,8 @@
 import {createUserApiDB, getUserByEmailDB } from '../../repository/api.repository';
 
 const client = {
-    query: jest.fn()
+    query: jest.fn(),
+    release: jest.fn()
 }
 
 jest.mock('pg', function () {

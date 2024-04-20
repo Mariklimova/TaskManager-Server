@@ -12,6 +12,8 @@ async function createTaskDB(task: string, user_id: string): Promise<iTask[]> {
   } catch (error: any) {
     await client.query('rollback');
     return [];
+  } finally {
+    client.release();
   }
 }
 
@@ -33,6 +35,8 @@ async function updateTaskDB(id: string, task: string, user_id: string): Promise<
   } catch (error: any) {
     await client.query('rollback');
     return [];
+  } finally {
+    client.release();
   }
 }
 
@@ -47,6 +51,8 @@ async function deleteTaskDB(id: string): Promise<iTask[]> {
   } catch (error: any) {
     await client.query('rollback');
     return [];
+  } finally {
+    client.release();
   }
 }
 
@@ -71,6 +77,8 @@ async function updateTaskOnResDB(id: string, body: iTask): Promise<iTask[]> {
   } catch (error) {
     await client.query('rollback');
     return [];
+  } finally {
+    client.release();
   }
 }
 

@@ -15,8 +15,7 @@ function IsValidUser(req: Request, _res: Response, next: NextFunction) {
   if (typeof surname != 'string') throw new Error('type surname not valid');
   if (typeof email != 'string') throw new Error('type email not valid');
   if (typeof pwd != 'string') throw new Error('type password not valid');
-  // if (!isNaN(name)) throw new Error('name not string');
-  // if (!isNaN(surname)) throw new Error('surname not string');
+ 
   if (!/^\w+@\w+\.[a-z]{2,5}/gm.test(email)) throw new Error('email not valid');
   if (!/^\w{8,}$/gm.test(pwd)) throw new Error('password not valid');
 
