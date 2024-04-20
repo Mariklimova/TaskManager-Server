@@ -9,52 +9,52 @@ async function createUserDB(name:string, surname:string, email:string, pwd:strin
     const { rows } = await client.query(sql, [name, surname, email, pwd]);
     await client.query('commit');
     return rows;
-  } catch (error) {
+  } catch (error:any) {
     await client.query('rollback');
     return [];
   }
 }
 
-async function getAllUserDB() {
+async function getAllUserDB():Promise<iUser[]> {
   const client = await pool.connect();
-  const sql = 'select * from users';
+  const sql:string = 'select * from users';
   const { rows } = await client.query(sql);
   return rows;
 }
 
-async function getUserByIdDB(id) {
+async function getUserByIdDB(id:string):Promise<iUser[]> {
   const client = await pool.connect();
-  const sql = 'select * from users where id = $1';
+  const sql:string = 'select * from users where id = $1';
   const { rows } = await client.query(sql, [id]);
   return rows;
 }
 
-async function updateUserDB(id, name, surname, email, pwd) {
+async function updateUserDB(id:string, name:string, surname:string, email:string, pwd:string):Promise<iUser[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = 'update users set name = $1,surname = $2,email = $3,pwd = $4 where id = $5 returning *';
+    const sql:string = 'update users set name = $1,surname = $2,email = $3,pwd = $4 where id = $5 returning *';
     const { rows } = await client.query(sql, [name, surname, email, pwd, id]);
     await client.query('commit');
     return rows;
-  } catch (error) {
+  } catch (error:any) {
     await client.query('rollback');
     return [];
   }
 }
 
-async function getUserEmailDB(email) {
+async function getUserEmailDB(email:string):Promise<iUser[]> {
   const client = await pool.connect();
-  const sql = 'select * from users where email = $1';
+  const sql:string = 'select * from users where email = $1';
   const { rows } = await client.query(sql, [email]);
   return rows;
 }
 
-async function deleteUserDB(id) {
+async function deleteUserDB(id:string):Promise<iUser[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql = 'delete from users where id = $1 returning *';
+    const sql:string = 'delete from users where id = $1 returning *';
     const { rows } = await client.query(sql, [id]);
     await client.query('commit');
     return rows;
@@ -64,18 +64,18 @@ async function deleteUserDB(id) {
   }
 }
 
-async function updateUserOnResDB(id, body) {
+async function updateUserOnResDB(id:string, body:iUser):Promise<iUser[]> {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const sql1 = 'SELECT * FROM users WHERE id = $1';
-    const oldObj = (await client.query(sql1, [id])).rows;
-    const newObj = { ...oldObj[0], ...body };
-    const sql2 = 'UPDATE users SET name = $1,surname = $2,email = $3,pwd = $4 WHERE id = $5 returning *';
+    const sql1:string = 'SELECT * FROM users WHERE id = $1';
+    const oldObj:iUser[] = (await client.query(sql1, [id])).rows;
+    const newObj:iUser = { ...oldObj[0], ...body };
+    const sql2:string = 'UPDATE users SET name = $1,surname = $2,email = $3,pwd = $4 WHERE id = $5 returning *';
     const { rows } = await client.query(sql2, [newObj.name, newObj.surname, newObj.email, newObj.pwd, id]);
     await client.query('commit');
     return rows;
-  } catch (error) {
+  } catch (error:any) {
     await client.query('rollback');
     return [];
   }
